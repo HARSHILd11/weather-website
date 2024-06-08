@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather App</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<style>
+  #myForm {
+    margin-top: 20%;
+    margin-left: 40%;
+  }
+  #weather-info{
+    margin-left: 40%;
+ 
+   
+  }
+  body {
+    background-image: url("background.gif"); /* Default background */
+    background-repeat: no-repeat;
+    background-size: contain;
+    overflow-x: none;
+    overflow-y: hidden;
+    
+  }
+  
+  body.cloudy {
+    background-image: url("cloudy.jpeg");
+    background-repeat: no-repeat;
+    background-size: cover; /* Background for cloudy weather */
+  }
+
+  body.haze {
+    background-image: url("haze.avif");
+    background-repeat: no-repeat;
+    background-size: cover; /* Background for cloudy weather */
+  }
+
+  body.rainy {
+    background-image: url("rainy.gif");
+    background-repeat: no-repeat;
+    background-size: cover; /* Background for cloudy weather */
+  }
+
+  body.Clear {
+    background-image: url("clear.gif");
+    background-repeat: no-repeat;
+    background-size: cover; /* Background for cloudy weather */
+  }
+  /* Style the input field */
+.weather-input {
+  background-color: #e0e0e0; /* Light gray background */
+  border: 1px solid #ccc; /* Light gray border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px 15px; /* Padding for spacing */
+  font-size: 16px; /* Font size */
+  width: 200px; /* Input field width */
+  margin-right: 10px; /* Margin for spacing */
+}
+
+/* Style the button */
+.weather-button {
+  background-color: #428bca; /* Blue background */
+  color: #fff; /* White text */
+  border: 1px solid #357ebd; /* Blue border */
+  border-radius: 5px; /* Rounded corners */
+  padding: 10px 20px; /* Padding for spacing */
+  font-size: 16px; /* Font size */
+  cursor: pointer; /* Indicate clickable action */
+  transition: background-color 0.2s ease-in-out; /* Smooth hover effect */
+}
+
+/* Add a hover effect for the button */
+.weather-button:hover {
+  background-color: #337ab7; /* Darker blue on hover */
+}
+
+</style>
+
+<body class="weather">
+  <form id="myForm">
+    <!-- <input type="text" id="city" placeholder="Enter city name">
+   
+    <button type="submit">Get Weather</button> -->
+
+    <input type="text" id="city" placeholder="Enter city name" class="weather-input">
+    <button type="submit" class="weather-button">Get Weather</button>
+    
+  </form>
+
+  <div >
+    <h1 id="weather-info">
+        
+    </h1>
+  </div>
+
+ 
+ 
+
+  <script>
+    const form = document.getElementById('myForm');
+    const weatherInfo = document.getElementById('weather-info');
+
+    form.addEventListener('submit', function(event) {
+      event.preventDefault(); // Prevent default form submission
+
+      const city = document.getElementById("city").value;
+
+      if (!city) {
+        weatherInfo.textContent = "Please enter a city name.";
+        return;
+      }
+
+      // Replace with your actual API key
+
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=5b417934029892ccafa5be594372d574`;
+
+      fetch(url)
+        .then(response => response.json())
+        .then(data => {
+
+          const cityName = data.name;
+          const temperature = Math.floor(data.main.temp - 273.15);
+          const description = data.weather[0].main;
+
+          weatherInfo.textContent = `Weather in ${cityName}: ${temperature}°C, ${description}`;
+          
+
+          if(description=="Clouds"){
+            const body = document.querySelector('.weather');
+            body.style.background = '';
+            if (description === "Clouds") {
+              body.classList.remove('haze', 'rainy', 'Clear');
+          
+              body.classList.add('cloudy'); // Add class for cloudy background
+            } 
+          }
+           if(description=="Haze"){
+            const body = document.querySelector('.weather');
+            body.style.background = '';
+            if (description === "Haze") {
+              body.classList.remove('cloudy', 'rainy', 'Clear');
+           
+              body.classList.add('haze'); // Add class for cloudy background
+            } 
+          }
+
+         if(description=="Rain"){
+            const body = document.querySelector('.weather');
+            body.style.background = '';
+            if (description === "Rain") {
+              body.classList.remove('haze', 'cloudy', 'Clear');
+              
+              body.classList.add('rainy'); // Add class for cloudy background
+            } 
+          }
+          
+         else if(description=="Clear"){
+          const body = document.querySelector('.weather');
+          body.style.background = '';
+          if (description === "Clear") {
+            body.classList.remove('haze', 'rainy', 'cloudy');
+            
+            body.classList.add('Clear'); // Add class for cloudy background
+          } 
+        }
+      })
+        
+
+        .catch(error => {
+         
+          console.error("Fetch error:", error);
+          weatherInfo.textContent = "An error occurred while fetching weather data.";
+        });
+    });
+
+
+    //map 
+
+
+
+
+
+  </script>
+</body>
+
+</html>

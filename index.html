@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+
+<body>
+
+<form action="">
+
+<input type="text" id="city-name">
+<button onclick="myfunction()">sumbit</button>
+
+<h1 id="p"></h1>
+
+
+</form>
+
+    <script>
+       function myfunction(){
+        let city=document.getElementById("city-name").value;
+        let p=document.getElementById("p");
+        p.innerText=city;
+       }
+        
+console.log(city);
+
+    </script>
+</body>
+
+</html>
